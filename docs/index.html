@@ -31,7 +31,7 @@
     }
 
     ul.col-3 li {
-      width : calc(100% / 3) ;
+      width: calc(90% / 3);
       display: inline-block;
       text-decoration: none;
     }
@@ -106,27 +106,39 @@
     </header>
     <main class="mdl-layout__content">
       <div class="page-content">
-
-        <div class="mdl-shadow--2dp card">
-          <h5 class="card-title" style="margin-bottom: 0;">ESP8266 IP Address</h5>
-          <div class="mdl-textfield mdl-js-textfield">
-            <input class="mdl-textfield__input" type="text" id="ip">
+        <div class="mdl-grid">
+          <div class="mdl-cell mdl-cell--12-col mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-shadow--2dp card">
+            <h5 class="card-title" style="margin-bottom: 0;">ESP8266 IP Address</h5>
+            <div class="mdl-textfield mdl-js-textfield">
+              <input class="mdl-textfield__input" type="text" id="ip">
+            </div>
+            <div>
+              <button id="init" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="button" onclick="initialize()">Initialize</button>
+            </div>
           </div>
-          <button id="init" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="button" onclick="initialize()">Initialize</button>
         </div>
-
-        <div class="mdl-shadow--2dp card">
-          <h5 class="card-title">Screw</h5>
-          <ul class="col-3"><li style="text-align: left;">0</li><li style="text-align: center;"></li><li style="text-align: center;">1023</li></ul>
-          <input id="screw" class="mdl-slider mdl-js-slider" type="range" min="0" max="1023" value="0" tabindex="0" oninput="throttled_set_screw()">
+        <div class="mdl-grid">
+          <div class="mdl-cell mdl-cell--12-col mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-shadow--2dp card">
+            <h5 class="card-title">Screw</h5>
+            <ul class="col-3">
+              <li style="text-align: left;">0</li>
+              <li style="text-align: center;"></li>
+              <li style="text-align: center;">1023</li>
+            </ul>
+            <input id="screw" class="mdl-slider mdl-js-slider" type="range" min="0" max="1023" value="0" tabindex="0" oninput="throttled_set_screw()">
+          </div>
         </div>
-
-        <div class="mdl-shadow--2dp card">
-          <h5 class="card-title">Rudder Yaw</h5>
-          <ul class="col-3"><li style="text-align: left;">-90</li><li style="text-align: center;"></li><li style="text-align: center;">90</li></ul>
-          <input id="yaw" class="mdl-slider mdl-js-slider" type="range" min="0" max="180" value="90" tabindex="0" oninput="throttled_set_yaw()">
+        <div class="mdl-grid">
+          <div class="mdl-cell mdl-cell--12-col mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-shadow--2dp card">
+            <h5 class="card-title">Rudder Yaw</h5>
+            <ul class="col-3">
+              <li style="text-align: left;">-90</li>
+              <li style="text-align: center;"></li>
+              <li style="text-align: center;">90</li>
+            </ul>
+            <input id="yaw" class="mdl-slider mdl-js-slider" type="range" min="0" max="180" value="90" tabindex="0" oninput="throttled_set_yaw()">
+          </div>
         </div>
-
       </div>
     </main>
   </div>
