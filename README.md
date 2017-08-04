@@ -27,7 +27,7 @@
 
 5. Open controll panel
 
-  Please open "ainehanta.github.io/esp-wifi-ship" in your browser.
+  Please open [ainehanta.github.io/esp-wifi-ship](http://ainehanta.github.io/esp-wifi-ship) in your browser.
 
 6. Setup controll panel
 
