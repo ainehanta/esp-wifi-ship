@@ -64,14 +64,14 @@
       yaw(val);
     }
 
-    var throttled_set_yaw = _.throttle(set_yaw, 500);
+    var throttled_set_yaw = _.throttle(set_yaw, 250);
 
     var set_screw = function() {
       var val = $("#screw").val();
       screw(val);
     }
 
-    var throttled_set_screw = _.throttle(set_screw, 500);
+    var throttled_set_screw = _.throttle(set_screw, 250);
 
     var screw = function(val) {
       $.ajax("http://" + get_ip() + "/screw?value=" + val, {
