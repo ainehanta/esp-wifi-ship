@@ -30,6 +30,10 @@
       text-align: center;
     }
 
+    .preset-button {
+      padding-top: 2rem;
+    }
+
     ul.col-3 li {
       width: calc(90% / 3);
       display: inline-block;
@@ -128,7 +132,7 @@
               <li style="text-align: center;">1023</li>
             </ul>
             <input id="screw" class="mdl-slider mdl-js-slider" type="range" min="0" max="1023" value="0" tabindex="0" oninput="throttled_set_screw()">
-            <div>
+            <div class="preset-button">
               <button id="screw_0" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="button" onclick="screw(0)">0%</button>
               <button id="screw_50" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="button" onclick="screw(512)">50%</button>
               <button id="screw_100" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="button" onclick="screw(1023)">100%</button>
@@ -144,7 +148,7 @@
               <li style="text-align: center;">90</li>
             </ul>
             <input id="yaw" class="mdl-slider mdl-js-slider" type="range" min="0" max="180" value="90" tabindex="0" oninput="throttled_set_yaw()">
-            <div>
+            <div class="preset-button">
               <button id="yaw_0" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="button" onclick="yaw(0)">-90 degree</button>
               <button id="yaw_90" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="button" onclick="yaw(90)">0 degree</button>
               <button id="yaw_180" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="button" onclick="yaw(180)">90 degree</button>
