@@ -1,0 +1,212 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="res/material.min.css">
+  <link rel="stylesheet" href="res/getmdl-select.min.css">
+
+
+  <title>WiFi Ship Controller Preferences</title>
+
+  <style>
+    body {
+      background-color: #FAFAFA;
+    }
+
+    .card {
+      background-color: white;
+      margin: 1rem;
+    }
+
+    .card-title {
+      padding-top: 1rem;
+    }
+
+    .page-content {
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+      <div class="mdl-layout__header-row">
+        <span class="mdl-layout-title">WiFi Ship Controller Preferences</span>
+        <div class="mdl-layout-spacer"></div>
+        <a href="index.html">open controller</a>
+      </div>
+    </header>
+
+    <main class="mdl-layout__content">
+      <div class="page-content">
+        <div class="mdl-grid">
+          <div class="mdl-cell mdl-cell--12-col mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-shadow--2dp card">
+            <h5 class="card-title">WiFi Client Settings</h5>
+            <div>
+              <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="wifi-dhcp">
+                <input type="radio" id="wifi-dhcp" class="mdl-radio__button" name="wifi-mode" value="dhcp">
+                <span class="mdl-radio__label">DHCP</span>
+              </label>
+              <span style="padding-left: 3rem;"></span>
+              <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="wifi-static">
+                <input type="radio" id="wifi-static" class="mdl-radio__button" name="wifi-mode" value="static">
+                <span class="mdl-radio__label">Static IP</span>
+              </label>
+            </div>
+            <div id="wifi-static-configs">
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="wifi-ssid">
+                <label class="mdl-textfield__label" for="wifi-ssid">SSID</label>
+              </div>
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="wifi-password">
+                <label class="mdl-textfield__label" for="wifi-password">Password</label>
+              </div>
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="wifi-ip">
+                <label class="mdl-textfield__label" for="wifi-ip">IP Address</label>
+              </div>
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="wifi-subnet">
+                <label class="mdl-textfield__label" for="wifi-subnet">Subnet Mask</label>
+              </div>
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="wifi-gw">
+                <label class="mdl-textfield__label" for="wifi-gw">Default Gateway</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mdl-grid">
+          <div class="mdl-cell mdl-cell--12-col mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-shadow--2dp card">
+            <h5 class="card-title">Screw Settings</h5>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
+              <input class="mdl-textfield__input" id="screw-steps" name="screw-steps" value="1024" type="text" readonly tabIndex="-1" data-val="1024" />
+              <label class="mdl-textfield__label" for="screw-steps">PWM Steps</label>
+              <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="screw-steps">
+                <li class="mdl-menu__item" data-val="1024">1024</li>
+                <li class="mdl-menu__item" data-val="2048">2048</li>
+                <li class="mdl-menu__item" data-val="4096">4096</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="mdl-grid">
+          <div class="mdl-cell mdl-cell--12-col mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-shadow--2dp card">
+            <div class="mdl-grid">
+              <div class="mdl-cell">
+                <button id="save_button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="button" onclick="saveConfig()">SAVE</button>
+              </div>
+              <div class="mdl-cell">
+                <button id="reset_button" class="mdl-button mdl-js-button mdl-button--raised" type="button" onclick="loadConfig()">RESET</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="status-toast" class="mdl-js-snackbar mdl-snackbar">
+        <div class="mdl-snackbar__text"></div>
+        <button class="mdl-snackbar__action" type="button"></button>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="res/getmdl-select.min.js"></script>
+  <script src="res/jquery-3.2.1.min.js"></script>
+  <script src="res/lodash.min.js"></script>
+  <script src="res/material.min.js"></script>
+
+  <script>
+    let showStatusToast = (message) => {
+      let snackbarContainer = document.querySelector('#status-toast');
+      snackbarContainer.MaterialSnackbar.showSnackbar({
+        message
+      });
+    }
+
+    let loadConfig = () => {
+      $.getJSON("config.json", () => {
+          console.log("load successed.")
+        })
+        .done((data) => {
+          window.espConfig = data;
+          bindConfig();
+          showStatusToast("Config loading done.")
+          console.log("load done");
+        })
+        .fail((data) => {
+          showStatusToast("Config loading failed.")
+          console.log("load failed");
+        });
+    }
+
+    let saveConfig = () => {
+      syncConfig();
+      $.ajax({
+        type: "POST",
+        url: 'config.json',
+        data: JSON.stringify(espConfig),
+        dataType: 'application/json'
+      })
+      .done(() => {
+        showStatusToast("Config saving done.");
+        console.log("save done");
+      })
+      .fail(() => {
+        showStatusToast("Config saving failed? Always show this message. Please reset esp.");
+        console.log("save failed? always shown this.");
+      });
+    }
+
+    let bindConfig = () => {
+      if (espConfig.wifi.mode == "dhcp") {
+        document.querySelector('#wifi-dhcp').parentNode.MaterialRadio.check();
+        document.querySelector('#wifi-static').parentNode.MaterialRadio.uncheck();
+
+
+      } else {
+        document.querySelector('#wifi-dhcp').parentNode.MaterialRadio.uncheck();
+        document.querySelector('#wifi-static').parentNode.MaterialRadio.check();
+      }
+
+      $('#wifi-ssid').val(espConfig.wifi.ssid).parent().addClass('is-dirty');
+      $('#wifi-password').val(espConfig.wifi.password).parent().addClass('is-dirty');
+      $('#wifi-ip').val(espConfig.wifi.ip).parent().addClass('is-dirty');
+      $('#wifi-subnet').val(espConfig.wifi.subnet).parent().addClass('is-dirty');
+      $('#wifi-gw').val(espConfig.wifi.gw).parent().addClass('is-dirty');
+
+      $('#screw-steps').val(espConfig.screw.steps).attr('data-val', espConfig.screw.steps);
+    }
+
+    let syncConfig = () => {
+      espConfig.wifi.mode = document.querySelector('input[name=wifi-mode]:checked').value;
+      espConfig.wifi.ssid = $('#wifi-ssid').val();
+      espConfig.wifi.password = $('#wifi-password').val();
+      espConfig.wifi.ip = $('#wifi-ip').val();
+      espConfig.wifi.subnet = $('#wifi-subnet').val();
+      espConfig.wifi.gw = $('#wifi-gw').val();
+      espConfig.screw.steps = $('#screw-steps').attr('data-val');
+
+      console.log(espConfig);
+    }
+
+    let initialize = () => {
+      loadConfig();
+    }
+
+    $(() => {
+      initialize();
+    })
+  </script>
+</body>
+
+</html>

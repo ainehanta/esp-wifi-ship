@@ -4,6 +4,7 @@
 
 * pin 15 -> Rudder yawing servo
 * pin 13 -> Screw motor
+* pin 14 -> Standalone(when it open) or Client(when it short to ground) mode select
 
 ## How to Use?
 
@@ -13,53 +14,27 @@
 
 2. Unzip and Open sketch
 
-  Please double click the downloaded zip file and open uncompressed directory.
-
-  Please open "wifi_ship.ino" file.
-
-3. Change the WIFI_SSID and WIFI_PWD
-
-  In arduino IDE, please change WIFI_SSID and WIFI_PWD constants to your WiFi Netowrk.
+  Please double click the downloaded zip file and open uncompressed directory and move directory to arduino sketches directory.
+  Next, please open esp-wifi-ship in arduino IDE.
 
 4. Write sketch to your ESP8266
 
-  Please click "Upload" button of Arduino IDE.
+  Please click "Upload" button of Arduino IDE and upload spiffs data by ['ESP8266 Sketch Data Upload'](https://github.com/esp8266/arduino-esp8266fs-plugin).
 
 5. Open controll panel
 
-  Please open [ainehanta.github.io/esp-wifi-ship](http://ainehanta.github.io/esp-wifi-ship) in your browser.
+  If you use standalone mode, please connect SSID:"ESP-WIFI-SHIP-CONFIG", PASS:"ESP-WIFI-SHIP-CONFIG" network.
+  Please open 192.168.10.1 (standalone) or another ip (client) in your browser.
 
-6. Setup controll panel
-
-  To use controll panel, please set ip address of your esp8266. The sketch output ip address of your esp8266 to serial monitor.
+  And load initial settings to esp if you launch first time. Open '<IP ADDRESS of ESP>/preferences.html' and click 'RESET' button, then click 'SAVE' button.
+  Reset esp.
 
 7. Controll your ship!
 
-## Controll panel server
+## Open Source License
 
-Normally, you can open the controll panel from github.
-But if you customized the controll panel, you must serve the controll panel yourself.
+This project contains following library.
 
-We prepared some server samples.
-
-### Windows
-
-Please cd to uncompressed this repository's directory in PowerShell and cd "docs" directory.
-And then input ".\windows.ps1" to launch the server.
-
-### Android
-
-Please use following apps.
-
-[HTTP Server powered by Apache](https://play.google.com/store/apps/details?id=com.esminis.server.apache)
-
-[File Manager](https://play.google.com/store/apps/details?id=com.asus.filemanager)
-
-Uncompress the repository and copy 'docs/index.html' to 'htdocs/public/'. Launch http server and access to server.
-
-### ruby
-
-```
-$ cd $REPOSITORY_DIRECTORY/docs
-$ ruby -run -e httpd
-```
+* [Material Design Lite (Apache License)](https://getmdl.io/)
+* [jQuery(MIT Lincense)](https://jquery.com/)
+* [getmdl-select(MIT License)](http://creativeit.github.io/getmdl-select/)

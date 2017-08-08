@@ -5,11 +5,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
-  <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-  <script src="http://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+  <link rel="stylesheet" href="res/material.min.css">
 
   <style>
     body {
@@ -43,81 +39,19 @@
 </head>
 
 <body>
-  <script>
-    $(function() {
-      $("#ip").val("192.168.1.252");
-    });
-
-    var initialize = function() {
-      yaw(90);
-      screw(0);
-      $('#yaw').val(90);
-      $('#screw').val(0);
-    }
-
-    var get_ip = function() {
-      return $("#ip").val();
-    }
-
-    var set_yaw = function() {
-      var val = $("#yaw").val();
-      yaw(val);
-    }
-
-    var throttled_set_yaw = _.throttle(set_yaw, 250);
-
-    var set_screw = function() {
-      var val = $("#screw").val();
-      screw(val);
-    }
-
-    var throttled_set_screw = _.throttle(set_screw, 250);
-
-    var screw = function(val) {
-      $.ajax("http://" + get_ip() + "/screw?value=" + val, {
-        type: 'GET',
-        dataType: 'html',
-        crossDomain: true,
-        success: function(data) {
-          console.log("complete");
-        },
-        error: function(e) {
-          console.log(e);
-        }
-      });
-      $("#screw").val(val);
-    }
-
-    var yaw = function(val) {
-      $.ajax("http://" + get_ip() + "/rudder/yaw?value=" + val, {
-        type: 'GET',
-        dataType: 'html',
-        crossDomain: true,
-        success: function(data) {
-          console.log("complete");
-        },
-        error: function(e) {
-          console.log(e);
-        }
-      });
-      $("#yaw").val(val);
-    }
-  </script>
   <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
     <header class="mdl-layout__header">
       <div class="mdl-layout__header-row">
         <span class="mdl-layout-title">WiFi Ship Controller</span>
         <div class="mdl-layout-spacer"></div>
+        <a href="preferences.html">open pref.</a>
       </div>
     </header>
     <main class="mdl-layout__content">
       <div class="page-content">
         <div class="mdl-grid">
           <div class="mdl-cell mdl-cell--12-col mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-shadow--2dp card">
-            <h5 class="card-title" style="margin-bottom: 0;">ESP8266 IP Address</h5>
-            <div class="mdl-textfield mdl-js-textfield">
-              <input class="mdl-textfield__input" type="text" id="ip">
-            </div>
+            <h5 class="card-title" style="margin-bottom: 0;">ESP8266</h5>
             <div>
               <button id="init" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="button" onclick="initialize()">Initialize</button>
             </div>
@@ -127,9 +61,9 @@
           <div class="mdl-cell mdl-cell--12-col mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-shadow--2dp card">
             <h5 class="card-title">Screw</h5>
             <ul class="col-3">
-              <li style="text-align: left;">0</li>
+              <li style="text-align: left;">0%</li>
               <li style="text-align: center;"></li>
-              <li style="text-align: center;">1023</li>
+              <li style="text-align: center;">100%</li>
             </ul>
             <input id="screw" class="mdl-slider mdl-js-slider" type="range" min="0" max="1023" value="0" tabindex="0" oninput="throttled_set_screw()">
             <div class="preset-button">
@@ -147,17 +81,74 @@
               <li style="text-align: center;"></li>
               <li style="text-align: center;">90</li>
             </ul>
-            <input id="yaw" class="mdl-slider mdl-js-slider" type="range" min="0" max="180" value="90" tabindex="0" oninput="throttled_set_yaw()">
+            <input id="yaw" class="mdl-slider mdl-js-slider" type="range" min="50" max="130" value="90" tabindex="0" oninput="throttled_set_yaw()">
             <div class="preset-button">
-              <button id="yaw_0" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="button" onclick="yaw(0)">-90 degree</button>
+              <button id="yaw_0" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="button" onclick="yaw(50)">-90 degree</button>
               <button id="yaw_90" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="button" onclick="yaw(90)">0 degree</button>
-              <button id="yaw_180" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="button" onclick="yaw(180)">90 degree</button>
+              <button id="yaw_180" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="button" onclick="yaw(130)">90 degree</button>
             </div>
           </div>
         </div>
       </div>
     </main>
   </div>
+
+  <script src="res/jquery-3.2.1.min.js"></script>
+  <script src="res/lodash.min.js"></script>
+  <script src="res/material.min.js"></script>
+
+  <script>
+    var initialize = function() {
+      yaw(90);
+      screw(0);
+      document.querySelector('#yaw').MaterialSlider.change(90);
+      document.querySelector('#screw').MaterialSlider.change(0);
+    }
+
+    var set_yaw = function() {
+      var val = $("#yaw").val();
+      yaw(val);
+    }
+
+    var throttled_set_yaw = _.throttle(set_yaw, 250);
+
+    var set_screw = function() {
+      var val = $("#screw").val();
+      screw(val);
+    }
+
+    var throttled_set_screw = _.throttle(set_screw, 250);
+
+    var screw = function(val) {
+      $.ajax("/screw?value=" + val, {
+        type: 'GET',
+        dataType: 'html',
+        crossDomain: true,
+        success: function(data) {
+          console.log("complete");
+        },
+        error: function(e) {
+          console.log(e);
+        }
+      });
+      document.querySelector('#screw').MaterialSlider.change(val);
+    }
+
+    var yaw = function(val) {
+      $.ajax("/rudder/yaw?value=" + val, {
+        type: 'GET',
+        dataType: 'html',
+        crossDomain: true,
+        success: function(data) {
+          console.log("complete");
+        },
+        error: function(e) {
+          console.log(e);
+        }
+      });
+      document.querySelector('#yaw').MaterialSlider.change(val);
+    }
+  </script>
 
 </body>
 
