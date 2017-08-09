@@ -36,5 +36,6 @@
 This project contains following library.
 
 * [Material Design Lite (Apache License)](https://getmdl.io/)
-* [jQuery(MIT Lincense)](https://jquery.com/)
 * [getmdl-select(MIT License)](http://creativeit.github.io/getmdl-select/)
+* [jQuery(MIT License)](https://jquery.com/)
+* [Lodash(MIT License)](https://lodash.com/)
